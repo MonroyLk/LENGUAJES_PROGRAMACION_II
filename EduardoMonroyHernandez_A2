@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+int estado;
+int main()
+{	MYSQL* conectar;
+	MYSQL_ROW fila;
+	MYSQL_RES* resultado;
+	conectar = mysql_init(0);
+	conectar = mysql_real_connect(conectar,"localhost","root","CastlecrasherS126","emp_uni",3306,NULL,0);
+	if (conectar) {
+		cout << "Conexion Exitosa... \n" << endl;
+
+		string consulta = "select * from empleado";
+		const char* c = consulta.c_str();
+		estado = mysql_query(conectar, c);
+		if (!estado) {
+			resultado = mysql_store_result(conectar);
+			cout << "Num_empleado" << " | " << " Nombre_emp " << " | " << " Apellido_pa " << " | " << " Apellido_ma " << " Fecha_nac " <<" RFC " << " | " << " Nombre_centro " << " | " << " Descripción_puesto " << " | " << "Directivo" << " | " << endl;
+			while (fila = mysql_fetch_row(resultado)) {
+
+				cout << fila[0] << " | " << fila[1] << " | " << fila[2] << " | " << fila[3] << fila[4] << " | " << fila[5] << " | " << fila[6] << " | " << fila[7] << " | " << fila[8] << " | "<< endl;
+			}
+		}
+		else {
+			cout << "error" << endl;		}	}
+	else {
+		cout << "Conexion no exitosa..." << endl; }
+   return 0;
+}
